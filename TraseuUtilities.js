@@ -27,10 +27,12 @@ export class TraseuUtilities
 		}
 	};
 
+
 	static TraseuNameFromNumber(num)
 	{
 		return TraseuUtilities.traseuLUT[num].name;
 	}
+
 	static ProbaNameFromTraseu(traseuNum, probaKey)
 	{
 		return TraseuUtilities.traseuLUT[traseuNum].probe[probaKey];
