@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/style.css">
+
+	<title>Adăugare participant</title>
+</head>
+
+<body>
+	<form autocomplete="off" onsubmit="return false">
+
+		<!-- Numele elevului -->
+		Nume Prenume:
+		<br>
+		<input type="text" id="nume1" name="nume1" placeholder="Participantul 1" required>
+		<br>
+		<input type="text" id="nume2" name="nume2" placeholder="Participantul 2" required>
+		<br>
+		<br>
+		Informații suplimentare:
+		<br>
+		<input type="text" id="prof" name="prof" placeholder="Nume prenume (profesor)" required>
+		<br>
+		<input type="text" id="scoala" name="scoala" placeholder="Scoală" required>
+		<br>
+
+		<!-- Verifica datele introduse -->
+		<br>
+		<input id="verificare" type="submit" value="Adăugare">
+		<br>
+		<br>
+
+		<div id="message">
+			Elevul X a fost adaugat in database și i s-a atribuit traseul Y
+		</div>
+	</form>
+
+	<script type="module" src="/AddParticipant.js"></script>
+</body>
+
+</html>

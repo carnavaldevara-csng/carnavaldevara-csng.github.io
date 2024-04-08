@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/style.css">
+
+	<title>Când Grecia visează</title>
+</head>
+
+<body>
+	<form autocomplete="off" onsubmit="return false">
+
+		<!-- Codul echipei -->
+		<label for="cod">Codul echipei</label>
+		<input type="text" id="cod" name="cod" placeholder="####" required>
+
+		<!-- Verifica datele introduse -->
+		<br>
+		<input id="verificare" type="submit" value="Verificare">
+
+		<br><br><br>
+		<!-- Cat punctaj sa adauge -->
+		<div id="score-form" data-traseu-number=1>
+			<label for="score-add">Adăugare scor</label>
+			<input type="number" id="score-add" value=1 min="1">
+
+			<!-- Punctaj -->
+			<div class="score-container">
+				<div class="score" data-db-key="stiinte">
+					<div data-label="Cărțile lui Herodot (stiințe)"></div>
+					<input type="button" value="+">
+					<input type="button" value="-">
+				</div>
+				<div class="score" data-db-key="sport">
+					<div data-label="Medalia lui Alexandru (sport)"></div>
+					<input type="button" value="+">
+					<input type="button" value="-">
+				</div>
+				<div class="score" data-db-key="arta">
+					<div data-label="Mătasea lui Virgiliu (artă)"></div>
+					<input type="button" value="+">
+					<input type="button" value="-">
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script type="module" src="/ScoreHandler.js"></script>
+	<script type="module" src="/TraseuCheck.js"></script>
+</body>
+
+</html>

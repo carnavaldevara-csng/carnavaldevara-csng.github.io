@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="/style.css">
+
+	<title>Participant</title>
+</head>
+
+<body class="menu">
+	<form autocomplete="off" onsubmit="return false">
+
+		<!-- Numele elevului -->
+		<label for="cod">Codul echipei:</label>
+		<input type="text" id="cod" nume="cod" placeholder="####">
+		<!-- Verifica datele introduse -->
+		<br>
+		<input id="verificare" type="submit" value="Verificare">
+
+		<br><br><br>
+		<!-- Cat punctaj are -->
+		<div id="score-form">
+
+		</div>
+	</form>
+
+	<script type="module" src="/ParticipantData.js"></script>
+</body>
+
+</html>
