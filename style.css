@@ -6,6 +6,7 @@
 	/* Colors */
 	--col-text: #181818;
 	--col-link-text: #efefef;
+	--col-button-bg: #efefef;
 
 	--col-link-bg-1: #6045fa;
 	--col-link-bg-2: #8c00ff;
@@ -174,6 +175,7 @@ input[type="number"],
 input {
 	border-radius: 4px;
 	padding: 0.25rem;
+	background-color: var(--col-button-bg);
 }
 
 

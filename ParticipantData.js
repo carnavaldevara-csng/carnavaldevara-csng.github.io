@@ -120,15 +120,15 @@ submitButton.addEventListener("click", () =>
 function UpdateAllScoress(nume1, nume2, prof, scoala, traseu, stiinte, sport, arta, pacanele)
 {
 	scoreForm.innerText =
-		"Nume coechipier 1: " + nume1 +
-		"\nNume coechipier 2: " + nume2 +
-		"\nNume profesor: " + prof +
+		"Nume 1: " + nume1 +
+		"\nNume 2: " + nume2 +
+		"\nProfesor: " + prof +
 		"\nȘcoală: " + scoala +
 		"\n\nTraseu: " + TraseuUtilities.TraseuNameFromNumber(traseu) +
 		"\n" + TraseuUtilities.ProbaNameFromTraseu(traseu, "stiinte") + ": " + ReplaceNull(stiinte) +
 		"\n" + TraseuUtilities.ProbaNameFromTraseu(traseu, "sport") + ": " + ReplaceNull(sport) +
 		"\n" + TraseuUtilities.ProbaNameFromTraseu(traseu, "arta") + ": " + ReplaceNull(arta) +
-		(pacanele == null ? "" : "\nPunctaj păcănele: " + pacanele) +
+		(pacanele == null ? "" : "\nPunctaj black market: " + pacanele) +
 		"\n\nPunctaj total: " + (stiinte + sport + arta + pacanele);
 }
 
@@ -136,6 +136,7 @@ function ReplaceNull(val)
 {
 	return val == null ? 0 : val
 }
+
 
 
 

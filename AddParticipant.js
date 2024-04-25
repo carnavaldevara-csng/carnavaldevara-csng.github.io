@@ -66,6 +66,14 @@ function GetTraseu()
 	return traseu;
 }
 
+function ResetForm()
+{
+	name1.value = ""
+	name2.value = ""
+	teacher.value = ""
+	school.value = ""
+}
+
 
 
 // ===== Submit button =====
@@ -106,6 +114,8 @@ submitButton.addEventListener("click", () =>
 		});
 
 		DisplayMessage(GetTraseu(), teamCode);
+
+		ResetForm()
 	})
 });
 
@@ -116,12 +126,15 @@ const message = document.getElementById("message");
 message.style.display = "none";
 function DisplayMessage(traseu, cod)
 {
-	message.innerText = "\nElevii " + GetName1() + " si " + GetName2() + " au fost adăugat în Database" +
-		"\nL-i s-a atribuit traseul " + TraseuUtilities.TraseuNameFromNumber(traseu) +
-		"\nSi codul " + cod +
-		"\nNu uita să le dai un bilețel cu codul!";
+	message.innerText = "\nElevii " + GetName1() + " si " + GetName2() + 
+		"\nde la scoala " + GetSchool() + ", cu profesorul " + GetTeacher() +
+		"\nau fost adăugați în Database" +
+		".\nL-i s-a atribuit traseul " + TraseuUtilities.TraseuNameFromNumber(traseu) +
+		"\nsi codul " + cod +
+		".\nNu uita să le dai un bilețel cu codul!";
 	message.style.display = "block";
 }
+
 
 
 
