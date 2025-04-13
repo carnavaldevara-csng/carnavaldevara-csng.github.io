@@ -1,35 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-import { getDatabase, set, ref, onValue, get } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
-
-// Firebase configuration
-const firebaseConfig = {
-	apiKey: "AIzaSyCRzq6h6SA_DzRe90hnpAR-LNnBzfNdXEc",
-	authDomain: "carnaval-de-vara-csng-7d795.firebaseapp.com",
-	projectId: "carnaval-de-vara-csng-7d795",
-	storageBucket: "carnaval-de-vara-csng-7d795.appspot.com",
-	messagingSenderId: "8511173079",
-	appId: "1:8511173079:web:5a4ccf29bb50c024a9db92",
-	databaseURL: "https://carnaval-de-vara-csng-7d795-default-rtdb.europe-west1.firebasedatabase.app/"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-
-// Initialize Realtime Database and get a reference to the service
-const db = getDatabase(app);
-
-
-
-
-
+import { db } from "/DatabaseVariables.js";
+import { set, ref, onValue, get, update, increment } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 
 // ===== Score add =====
 const scoreAdd = document.getElementById("score-add");
 function GetScoreAdd()
 {
-	return scoreAdd.value;
+	return Number(scoreAdd.value);
 }
 
 
@@ -38,10 +16,7 @@ function GetScoreAdd()
 function GetLabel(scoreDiv)
 {
 	const label = scoreDiv.children[0].getAttribute("data-label");
-	if (label == null)
-		return GetKey(scoreDiv);
-	else
-		return label;
+	return label ?? GetKey(scoreDiv);
 }
 
 function GetKey(scoreDiv)
@@ -66,7 +41,7 @@ function HasNoButtons(scoreDiv)
 
 
 
-// ===== Participant daa=ta =====
+// ===== Participant data =====
 function GetFullPath(scoreDiv)
 {
 	return "echipe/" + GetTeamCode() + "/" + GetKey(scoreDiv);
@@ -89,7 +64,7 @@ function GetTeamCodeKey()
 const scoreForm = document.getElementById("score-form");
 function DislayScoreForm(display)
 {
-	scoreForm.style.display = (display ? "block" : "none");
+	scoreForm.style.display = display ? "block" : "none";
 }
 
 const submitButton = document.getElementById("verificare");
@@ -102,17 +77,18 @@ submitButton.addEventListener("click", () =>
 
 	get(ref(db, GetTeamCodeKey())).then((snapshot) =>
 	{
-		if (!snapshot.exists())
-		{
+		if (!snapshot.exists()) {
 			alert("Nu există echipa cu codul " + GetTeamCode() +
-				".\nVerifică dacă ai introdus codul corect.\nDacă echipa nu este înscrisă va trebui adăugată in Database.");
+				".\nVerifică dacă ai introdus codul corect.\nDacă echipa nu este înscrisă va trebui adăugată in database.");
 			return;
 		}
 
-		unsubscribe();  // Unsubscribe so as to not add more event listeners to the same path
-		unsubscribe = onValue(ref(db, GetTeamCodeKey()), () =>
+		if (scoreAdd !== null) scoreAdd.value = 1;
+		unsubscribe(); // So as to not call the function more times (onValue(ref, callback, {onlyOnce:true}) doesn't work)
+		unsubscribe = onValue(ref(db, GetTeamCodeKey()), (snapshot) =>
 		{
 			UpdateAllScoress();
+			// UpdateTaskList(snapshot);
 		});
 
 		DislayScoreForm(true);
@@ -121,15 +97,13 @@ submitButton.addEventListener("click", () =>
 
 function UpdateAllScoress()
 {
-	for (let i = 0; i < scores.length; i++)
-	{
+	for (let i = 0; i < scores.length; i++) {
 		UpdateScore(scores[i]);
 	}
 }
 
 function UpdateScore(scoreDiv)
 {
-	// let key = GetFullPath(scoreDiv);
 	get(ref(db, GetFullPath(scoreDiv))).then((snapshot) =>
 	{
 		let value = snapshot.exists() ? snapshot.val() : 0;
@@ -139,12 +113,39 @@ function UpdateScore(scoreDiv)
 
 
 
+// ===== Task list =====
+// const taskList = document.getElementById("current-task");
+// function UpdateTaskList(snapshot)
+// {
+// 	let taskIdx = snapshot.child("currentTask").val();
+// 	const taskIdxMax = snapshot.child("tasks").val().length;
+// 	let finishedAllTasks = false;
+// 	if (taskIdx >= taskIdxMax) {
+// 		taskIdx = taskIdxMax;
+// 		finishedAllTasks = true;
+// 	}
+
+// 	let text = "<s>";
+// 	for (let i = 0; i <= taskIdx - 1; i++) {
+// 		text += snapshot.child("tasks/" + i).val() + "<br>";
+// 	}
+// 	if (finishedAllTasks) {
+// 		text += "</s><br><b>Ai terminat toate task-urile!</b>";
+// 	}
+// 	else {
+// 		text += "</s>" + snapshot.child("tasks/" + taskIdx).val();
+// 	}
+
+// 	taskList.innerHTML = text;
+// }
+
+
+
 // ===== Password =====
 function PromptPassword(pass)
 {
 	const val = prompt("Parola");
-	if (val != pass)
-	{
+	if (val != pass) {
 		alert("Parola incorecta. Te intorci la menuil principal");
 		location.href = "/index.html";
 	}
@@ -157,30 +158,24 @@ DislayScoreForm(false);
 // All score divs
 const scores = document.getElementsByClassName("score");
 // Setup all buttons
-for (let i = 0; i < scores.length; i++)
-{
-	if (HasNoButtons(scores[i]))
-	{
+for (let i = 0; i < scores.length; i++) {
+	if (HasNoButtons(scores[i])) {
 		continue;
 	}
 
 	GetAddButton(scores[i]).addEventListener("click", () =>
 	{
-		get(ref(db, GetFullPath(scores[i]))).then((snapshot) =>
-		{
-			set(snapshot.ref, Number(snapshot.val()) + Number(GetScoreAdd()));
-		});
-		UpdateScore(scores[i]);
+		const updates = {};
+		updates[GetKey(scores[i])] = increment(GetScoreAdd());
+		update(ref(db, GetTeamCodeKey(scores[i]) + '/'), updates);
 	});
 	GetSubtractButton(scores[i]).addEventListener("click", () =>
 	{
-		get(ref(db, GetFullPath(scores[i]))).then((snapshot) =>
-		{
-			set(snapshot.ref, Number(snapshot.val()) - Number(GetScoreAdd()));
-		});
-		UpdateScore(scores[i]);
+		const updates = {};
+		updates[GetKey(scores[i])] = increment(-GetScoreAdd());
+		update(ref(db, GetTeamCodeKey(scores[i]) + '/'), updates);
 	});
 }
 
 
-onValue(ref(db, "password"), (snapshot) => { PromptPassword(snapshot.val()); });
+// onValue(ref(db, "password"), snapshot => PromptPassword(snapshot.val()));
