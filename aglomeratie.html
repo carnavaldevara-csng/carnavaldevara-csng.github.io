@@ -5,10 +5,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="/style.css">
-	<title>Participant</title>
+	<title>Aglomeratie</title>
 
-	<script type="module" src="/Scripts/Database/ScoreHandler.js"></script>
+	<script type="module" src="/Scripts/Database/Specialized/MoveTaskBack.js"></script>
 	<script type="module" src="/Scripts/Database/CurrentTask.js"></script>
+	<script type="module" src="/Scripts/Database/ScoreHandler.js"></script>
+	<script type="module" src="/Scripts/Database/AskForPassword.js"></script>
 </head>
 
 <body>
@@ -35,33 +37,30 @@
 				<div class="score" data-no-buttons data-db-key="score">
 					<div data-label="Scor total">Scor total placeholder</div>
 				</div>
-				<!-- <Sectiune collapsible  -->
-				<div>
-					<div class="collapsible">Date suplimentare</div>
-					<div class="content score-container" style="margin-top: 0px;">
-						<div class="score" data-no-buttons data-db-key="name">
-							<div data-label="Nume">Nume placeholder</div>
-						</div>
-						<div class="score" data-no-buttons data-db-key="school">
-							<div data-label="Școală">Școală placeholder</div>
-						</div>
-						<div class="score" data-no-buttons data-db-key="teacher">
-							<div data-label="Profesor">Profesor placeholder</div>
-						</div>
-						<div class="" data-no-buttons>
-							<a href="/leaderboard.html">Vezi leaderboard</a>
-						</div>
-					</div>
+				<div class="score" data-no-buttons data-db-key="name">
+					<div data-label="Nume">Nume placeholder</div>
+				</div>
+				<div class="score" data-no-buttons data-db-key="school">
+					<div data-label="Școală">Școală placeholder</div>
+				</div>
+				<div class="score" data-no-buttons data-db-key="teacher">
+					<div data-label="Profesor">Profesor placeholder</div>
 				</div>
 				<div data-no-buttons>
 					<h3>Task-ul tău curent:</h3>
 					<div id="current-task" class="panel">Current task placeholder</div>
 				</div>
+
+
+				<input type="button" value="Mută task înapoi" id="move-task-back" style="
+				color: red;
+				font-size: 1.5rem;
+				font-weight: bold;
+				height: 3rem;">
 			</div>
+
 		</div>
 	</div>
-
-	<script src="/Scripts/CollapsibleSection.js"></script>
 </body>
 
 </html>

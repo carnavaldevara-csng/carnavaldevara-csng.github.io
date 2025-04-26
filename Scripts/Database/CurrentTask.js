@@ -1,5 +1,5 @@
 import { get, ref, onValue } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
-import { db } from "/DatabaseVariables.js"
+import { db } from "/Scripts/Database/DatabaseVariables.js"
 
 const teamCode = document.getElementById("cod");
 function GetTeamCode()
@@ -19,7 +19,7 @@ let unsubscribe = () => { return; };
 submitButton.addEventListener("click", () =>
 {
 	// Verific daca a introdus datele
-	if (GetTeamCode() == "")
+	if (GetTeamCode() === "")
 		return;
 
 	get(ref(db, GetTeamCodeKey())).then((snapshot) =>

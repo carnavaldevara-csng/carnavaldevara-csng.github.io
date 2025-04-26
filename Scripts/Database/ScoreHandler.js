@@ -1,13 +1,18 @@
 // Import the functions you need from the SDKs you need
-import { db } from "/DatabaseVariables.js";
+import { db } from "/Scripts/Database/DatabaseVariables.js";
 import { set, ref, onValue, get, update, increment } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 
 // ===== Score add =====
 const scoreAdd = document.getElementById("score-add");
-function GetScoreAdd()
+function GetScoreAdd(scoreDiv)
 {
-	return Number(scoreAdd.value);
+	if (scoreDiv == undefined) {
+		return Number(scoreAdd.value);
+	}
+	return scoreDiv.hasAttribute("data-fixed-add-value") && scoreDiv != undefined ?
+		Number(scoreDiv.getAttribute("data-fixed-add-value")) :
+		Number(scoreAdd.value);
 }
 
 
@@ -72,14 +77,15 @@ let unsubscribe = () => { return; };
 submitButton.addEventListener("click", () =>
 {
 	// Verific daca a introdus datele
-	if (GetTeamCode() == "")
+	if (GetTeamCode() === "")
 		return;
 
 	get(ref(db, GetTeamCodeKey())).then((snapshot) =>
 	{
 		if (!snapshot.exists()) {
 			alert("Nu există echipa cu codul " + GetTeamCode() +
-				".\nVerifică dacă ai introdus codul corect.\nDacă echipa nu este înscrisă va trebui adăugată in database.");
+				".\nVerifică dacă ai introdus codul corect.\nDacă echipa nu este înscrisă va trebui înscrisă.");
+			teamCode.value = "";
 			return;
 		}
 
@@ -113,45 +119,6 @@ function UpdateScore(scoreDiv)
 
 
 
-// ===== Task list =====
-// const taskList = document.getElementById("current-task");
-// function UpdateTaskList(snapshot)
-// {
-// 	let taskIdx = snapshot.child("currentTask").val();
-// 	const taskIdxMax = snapshot.child("tasks").val().length;
-// 	let finishedAllTasks = false;
-// 	if (taskIdx >= taskIdxMax) {
-// 		taskIdx = taskIdxMax;
-// 		finishedAllTasks = true;
-// 	}
-
-// 	let text = "<s>";
-// 	for (let i = 0; i <= taskIdx - 1; i++) {
-// 		text += snapshot.child("tasks/" + i).val() + "<br>";
-// 	}
-// 	if (finishedAllTasks) {
-// 		text += "</s><br><b>Ai terminat toate task-urile!</b>";
-// 	}
-// 	else {
-// 		text += "</s>" + snapshot.child("tasks/" + taskIdx).val();
-// 	}
-
-// 	taskList.innerHTML = text;
-// }
-
-
-
-// ===== Password =====
-function PromptPassword(pass)
-{
-	const val = prompt("Parola");
-	if (val != pass) {
-		alert("Parola incorecta. Te intorci la menuil principal");
-		location.href = "/index.html";
-	}
-}
-
-
 
 // ===== Setup =====
 DislayScoreForm(false);
@@ -166,16 +133,13 @@ for (let i = 0; i < scores.length; i++) {
 	GetAddButton(scores[i]).addEventListener("click", () =>
 	{
 		const updates = {};
-		updates[GetKey(scores[i])] = increment(GetScoreAdd());
+		updates[GetKey(scores[i])] = increment(GetScoreAdd(scores[i]));
 		update(ref(db, GetTeamCodeKey(scores[i]) + '/'), updates);
 	});
 	GetSubtractButton(scores[i]).addEventListener("click", () =>
 	{
 		const updates = {};
-		updates[GetKey(scores[i])] = increment(-GetScoreAdd());
+		updates[GetKey(scores[i])] = increment(-GetScoreAdd(scores[i]));
 		update(ref(db, GetTeamCodeKey(scores[i]) + '/'), updates);
 	});
 }
-
-
-// onValue(ref(db, "password"), snapshot => PromptPassword(snapshot.val()));

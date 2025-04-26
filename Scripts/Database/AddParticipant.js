@@ -1,4 +1,4 @@
-import { db } from "/DatabaseVariables.js";
+import { db } from "/Scripts/Database/DatabaseVariables.js";
 import { set, ref, onValue, get, update, runTransaction } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 
@@ -62,7 +62,7 @@ submitButton.addEventListener("click", () =>
 	let teamCode;
 	runTransaction(ref(db, "echipe"), echipe =>
 	{
-		if (GetName() === "" || GetTeacher === "" || GetSchool() === "") return; // Error
+		if (GetName() === "" || GetTeacher() === "" || GetSchool() === "") return; // Error
 
 		const newTeam = {
 			name: GetName(),
@@ -110,19 +110,5 @@ Nu uita de cartonașul cu codul!`;
 
 
 
-
 // Load task list
 onValue(ref(db, "tasks"), snapshot => taskList = snapshot.val().slice());
-
-// ===== Password =====
-function PromptPassword(pass)
-{
-	const val = prompt("Parola");
-
-	if (val != pass) {
-		alert("Parola incorecta. Te intorci la menuil principal.");
-		location.href = "index.html";
-	}
-}
-
-// onValue(ref(db, "password"), snapshot => PromptPassword(snapshot.val()));

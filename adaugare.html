@@ -4,45 +4,44 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 	<link rel="stylesheet" href="/style.css">
-
 	<title>Adăugare participant</title>
+
+	<script type="module" src="/Scripts/Database/AskForPassword.js"></script>
+	<script type="module" src="/Scripts/Database/AddParticipant.js"></script>
 </head>
 
 <body>
 	<div class="navbar">
 		<a href="/index.html" tabindex="">Carnaval de vară</a>
 	</div>
+	<div class="menu">
+		<form autocomplete="off" onsubmit="return false">
 
-	<form autocomplete="off" onsubmit="return false">
+			<!-- Numele elevului -->
+			Nume Prenume:
+			<br>
+			<input type="text" id="nume" name="nume" placeholder="Participanți" required>
+			<br>
+			<br>
+			Informații suplimentare:
+			<br>
+			<input type="text" id="prof" name="prof" placeholder="Nume prenume profesor" required>
+			<br>
+			<input type="text" id="scoala" name="scoala" placeholder="Scoală" required>
+			<br>
 
-		<!-- Numele elevului -->
-		Nume Prenume:
-		<br>
-		<input type="text" id="nume" name="nume" placeholder="Participanți" required>
-		<br>
-		<br>
-		Informații suplimentare:
-		<br>
-		<input type="text" id="prof" name="prof" placeholder="Nume prenume profesor" required>
-		<br>
-		<input type="text" id="scoala" name="scoala" placeholder="Scoală" required>
-		<br>
+			<!-- Verifica datele introduse -->
+			<br>
+			<input id="verificare" type="submit" value="Adăugare">
+			<br>
+			<br>
 
-		<!-- Verifica datele introduse -->
-		<br>
-		<input id="verificare" type="submit" value="Adăugare">
-		<br>
-		<br>
-
-		<div id="message">
-			Mesaj de succes la adaugarea echipei (initial ascuns)
-		</div>
-	</form>
-
-	<script type="module" src="/AskForPassword.js"></script>
-	<script type="module" src="/AddParticipant.js"></script>
+			<div id="message">
+				Mesaj de succes la adaugarea echipei (initial ascuns)
+			</div>
+		</form>
+	</div>
 </body>
 
 </html>
