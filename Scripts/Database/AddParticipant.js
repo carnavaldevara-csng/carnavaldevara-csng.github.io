@@ -1,12 +1,6 @@
 import { db } from "/Scripts/Database/DatabaseVariables.js";
+import { Shuffle, RandomBetween } from "/Scripts/Utility.js";
 import { set, ref, onValue, get, update, runTransaction } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
-
-
-function RandomBetween(min, max)
-{
-	return Math.floor(Math.random() * (max - min) + min)
-}
-
 
 // ===== Participant data =====
 const name = document.getElementById("nume");
@@ -26,22 +20,6 @@ function GetSchool()
 {
 	return school.value;
 }
-
-
-
-let taskList;
-function GetShuffledTaskList(allTasks)
-{
-	const result = taskList.slice();
-	for (let i = 0; i < result.length; i++) {
-		const randIdx = RandomBetween(i, result.length);
-		const temp = result[i];
-		result[i] = result[randIdx];
-		result[randIdx] = temp;
-	}
-	return result;
-}
-
 
 
 
@@ -68,7 +46,7 @@ submitButton.addEventListener("click", () =>
 			name: GetName(),
 			teacher: GetTeacher(),
 			school: GetSchool(),
-			tasks: GetShuffledTaskList(taskList),
+			tasks: Shuffle(taskList),
 			currentTask: 0,
 			score: 0
 		};
@@ -111,4 +89,5 @@ Nu uita de cartonașul cu codul!`;
 
 
 // Load task list
-onValue(ref(db, "tasks"), snapshot => taskList = snapshot.val().slice());
+let taskList;
+onValue(ref(db, "tasks"), snapshot => taskList = snapshot.val());

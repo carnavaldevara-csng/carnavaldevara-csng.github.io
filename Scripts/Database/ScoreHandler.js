@@ -94,7 +94,6 @@ submitButton.addEventListener("click", () =>
 		unsubscribe = onValue(ref(db, GetTeamCodeKey()), (snapshot) =>
 		{
 			UpdateAllScoress();
-			// UpdateTaskList(snapshot);
 		});
 
 		DislayScoreForm(true);
