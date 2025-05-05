@@ -15,6 +15,15 @@ export function Shuffle(arrayCopy)
 	return result;
 }
 
+export function ShuffledIndexes(minInclusive, maxExclusive)
+{
+	const arr = [];
+	for (let i = minInclusive; i < maxExclusive; i++) {
+		arr.push(i);
+	}
+	return Shuffle(arr);
+}
+
 export function Swap(a, b)
 {
 	const temp = a;

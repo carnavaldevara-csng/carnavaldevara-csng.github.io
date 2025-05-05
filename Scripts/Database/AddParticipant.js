@@ -1,6 +1,6 @@
 import { db } from "/Scripts/Database/DatabaseVariables.js";
-import { Shuffle, RandomBetween } from "/Scripts/Utility.js";
-import { set, ref, onValue, get, update, runTransaction } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+import { ShuffledIndexes, RandomBetween } from "/Scripts/Utility.js";
+import { ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 // ===== Participant data =====
 const name = document.getElementById("nume");
@@ -46,7 +46,7 @@ submitButton.addEventListener("click", () =>
 			name: GetName(),
 			teacher: GetTeacher(),
 			school: GetSchool(),
-			tasks: Shuffle(taskList),
+			tasks: ShuffledIndexes(0, taskList.length),
 			currentTask: 0,
 			score: 0
 		};
@@ -89,5 +89,5 @@ Nu uita de cartonașul cu codul!`;
 
 
 // Load task list
-let taskList;
+let taskList = [];
 onValue(ref(db, "tasks"), snapshot => taskList = snapshot.val());

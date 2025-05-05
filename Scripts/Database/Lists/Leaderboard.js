@@ -1,5 +1,5 @@
 import { db } from "/Scripts/Database/DatabaseVariables.js";
-import { onValue, get, ref, query, limitToLast, orderByChild } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+import { onValue, ref, query, limitToLast, orderByChild } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 function UpdatePanelData(panel, name, score)
 {

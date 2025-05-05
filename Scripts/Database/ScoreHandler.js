@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { db } from "/Scripts/Database/DatabaseVariables.js";
-import { set, ref, onValue, get, update, increment } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+import { ref, onValue, get, update, increment } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 
 // ===== Score add =====

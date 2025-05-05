@@ -12,11 +12,11 @@ function GetTeamCodeKey()
 	return "echipe/" + GetTeamCode();
 }
 
-const taskList = document.getElementById("current-task");
 
-const submitButton = document.getElementById("verificare");
+
+const taskListElement = document.getElementById("current-task");
 let unsubscribe = () => { return; };
-submitButton.addEventListener("click", () =>
+function UpdateTaskList()
 {
 	// Verific daca a introdus datele
 	if (GetTeamCode() === "")
@@ -41,16 +41,26 @@ submitButton.addEventListener("click", () =>
 
 			let text = "<s>";
 			for (let i = 0; i <= taskIdx - 1; i++) {
-				text += snapshot.child("tasks/" + i).val() + "<br>";
+				text += taskList[snapshot.child("tasks/" + i).val()] + "<br>";
 			}
 			if (finishedAllTasks) {
 				text += "</s><br><b>Ai terminat toate task-urile!</b>";
 			}
 			else {
-				text += "</s>" + snapshot.child("tasks/" + taskIdx).val();
+				text += "</s>" + taskList[snapshot.child("tasks/" + taskIdx).val()];
 			}
 
-			taskList.innerHTML = text;
+			taskListElement.innerHTML = text;
 		});
 	});
+}
+
+document.getElementById("verificare").addEventListener("click", UpdateTaskList);
+
+// Load task list
+let taskList = [];
+onValue(ref(db, "tasks"), snapshot =>
+{
+	taskList = snapshot.val();
+	UpdateTaskList();
 });
