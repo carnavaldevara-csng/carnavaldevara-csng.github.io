@@ -53,6 +53,11 @@ function GetFullPath(scoreDiv)
 }
 
 const teamCode = document.getElementById("cod");
+teamCode.addEventListener("change", () =>
+{
+	DislayScoreForm(false);
+});
+
 function GetTeamCode()
 {
 	return teamCode.value;
@@ -86,6 +91,7 @@ submitButton.addEventListener("click", () =>
 			alert("Nu există echipa cu codul " + GetTeamCode() +
 				".\nVerifică dacă ai introdus codul corect.\nDacă echipa nu este înscrisă va trebui înscrisă.");
 			teamCode.value = "";
+			DislayScoreForm(false);
 			return;
 		}
 

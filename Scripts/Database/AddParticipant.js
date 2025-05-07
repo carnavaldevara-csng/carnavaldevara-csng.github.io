@@ -1,5 +1,5 @@
 import { db } from "/Scripts/Database/DatabaseVariables.js";
-import { ShuffledIndexes, RandomBetween } from "/Scripts/Utility.js";
+import { ShuffledIndexes, RandomBetween, Swap } from "/Scripts/Utility.js";
 import { ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
 
 // ===== Participant data =====
@@ -41,6 +41,7 @@ submitButton.addEventListener("click", () =>
 	runTransaction(ref(db, "echipe"), echipe =>
 	{
 		if (GetName() === "" || GetTeacher() === "" || GetSchool() === "") return; // Error
+		echipe = echipe ?? {}; // Creaza obiectul daca nu exista
 
 		const newTeam = {
 			name: GetName(),
@@ -51,7 +52,15 @@ submitButton.addEventListener("click", () =>
 			score: 0
 		};
 
-		echipe = echipe ?? {}; // Creaza obiectul daca nu exista
+		// Task-ul cu indice 0 trebuie sa se afle printre primele n taskuri
+		const idx0Dist = 6; // Task-ul cu idx 0 se alfa printre primele 6 task-uri
+		const idx0 = newTeam.tasks.indexOf(0);
+		if (idx0 > idx0Dist) {
+			const idxNou = RandomBetween(0, idx0Dist + 1);
+			const temp = newTeam.tasks[idx0];
+			newTeam.tasks[idx0] = newTeam.tasks[idxNou];
+			newTeam.tasks[idxNou] = temp;
+		}
 
 		do {
 			teamCode = RandomBetween(100, 1000);
